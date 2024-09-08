@@ -1,0 +1,69 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Weekly Plans{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1>Weekly Plans</h1>
+
+        {# Görevlerin listesi #}
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>Developer</th>
+                <th>Task</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for plan in weekly_plans %}
+                <tr>
+                    <td>{{ plan.developer.name }}</td>
+                    <td>
+                        <a href="{{ path('task_show', { 'id': plan.task.id }) }}">
+                            {{ plan.task.name }}
+                        </a>
+                    </td>
+                    <td>{{ plan.startDate|date('Y-m-d H:i') }}</td>
+                    <td>{{ plan.endDate|date('Y-m-d H:i') }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        {# Developer Task Units and Hours tablosu #}
+        <h2 class="mt-5">Developer Task Units and Hours</h2>
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>Developer</th>
+                <th>Total Task Units</th>
+                <th>Total Hours</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for developer, data in developer_tasks %}
+                <tr>
+                    <td>{{ developer }}</td>
+                    <td>{{ data.taskUnits }}</td>
+                    <td>{{ data.totalHours }} hours</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        {# Plan tarih aralığı ve süresi #}
+        {% if earliestStartDate and latestEndDate %}
+            <div class="alert alert-info mt-5">
+                <strong>Plan Başlangıç Tarihi:</strong> {{ earliestStartDate|date('Y-m-d') }}<br>
+                <strong>Plan Bitiş Tarihi:</strong> {{ latestEndDate|date('Y-m-d') }}<br>
+                <strong>Plan Süresi:</strong> {{ planDuration }}
+            </div>
+        {% else %}
+            <div class="alert alert-warning mt-5">
+                No tasks available to determine the plan dates and duration.
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

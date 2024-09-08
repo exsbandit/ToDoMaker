@@ -1,0 +1,37 @@
+# config/services.yaml
+parameters:
+    provider1_api_url: '%env(PROVIDER1_API_URL)%'
+    provider2_api_url: '%env(PROVIDER2_API_URL)%'
+
+services:
+    # Varsayılan hizmet yapılandırması
+    _defaults:
+        autowire: true      # Bağımlılıkları otomatik olarak enjekte eder.
+        autoconfigure: true # Hizmetlerinizi otomatik olarak komut, olay aboneleri vb. olarak kaydeder.
+
+    # src/ dizinindeki sınıfları hizmet olarak kullanıma açar
+    # Bu, her bir sınıf için tam adının hizmet kimliği olarak kullanılmasını sağlar
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+
+    # Komutları otomatik olarak kaydetmek için:
+    App\Command\:
+        resource: '../src/Command'
+        tags: ['console.command']  # Symfony'de komut olarak kaydet
+
+    # Hizmet tanımlamaları
+    App\Service\ProviderFactory:
+        arguments:
+            $client: '@http_client'
+
+    App\Service\Provider1:
+        arguments:
+            $client: '@http_client'
+
+    App\Service\Provider2:
+        arguments:
+            $client: '@http_client'

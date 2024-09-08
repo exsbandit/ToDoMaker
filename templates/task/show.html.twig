@@ -1,0 +1,39 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Task Details{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1>{{ task.name }}</h1>
+        <p><strong>Description:</strong> {{ task.name }}</p>
+        <p><strong>Duration:</strong> {{ task.duration }} hours</p>
+        <p><strong>Difficulty:</strong> {{ task.difficulty }}</p>
+        <p><strong>Assigned:</strong> {{ task.assigned ? 'Yes' : 'No' }}</p>
+
+        {% if weeklyPlans is not empty %}
+            <h2>Assigned Developers</h2>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Developer</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for plan in weeklyPlans %}
+                    <tr>
+                        <td>{{ plan.developer.name }}</td>
+                        <td>{{ plan.startDate|date('Y-m-d H:i') }}</td>
+                        <td>{{ plan.endDate|date('Y-m-d H:i') }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No developers have been assigned to this task yet.</p>
+        {% endif %}
+
+        <a href="{{ path('task_list') }}" class="btn btn-primary mt-4">Back to Tasks</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{# templates/task/list.html.twig #}
+{% extends 'layout.html.twig' %}
+
+{% block title %}Task List{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1>Task List</h1>
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Duration</th>
+                <th>Difficulty</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for task in tasks %}
+                <tr>
+                    <td>{{ task.id }}</td>
+                    <td>{{ task.name }}</td>
+                    <td>{{ task.duration }}</td>
+                    <td>{{ task.difficulty }}</td>
+                    <td>
+                        {% if task.assigned %}
+                            Assigned
+                        {% else %}
+                            Unassigned
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ path('task_show', { 'id': task.id }) }}" class="btn btn-info">View</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('weekly_plans_list') }}" class="btn btn-primary mt-4">Back to Weekly Plans</a>
+    </div>
+{% endblock %}

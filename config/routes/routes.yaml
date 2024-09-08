@@ -1,0 +1,29 @@
+weekly_plans_list:
+  path: /weekly-plans
+  controller: App\Controller\TaskController::weeklyPlans
+task_show:
+  path: /task/{id}
+  controller: App\Controller\TaskController::show
+
+task_list:
+  path: /tasks
+  controller: App\Controller\TaskController::taskList
+
+run_task_command:
+  path: /run-task-command/{provider}
+  controller: App\Controller\TaskCommandController::runTaskCommand
+  methods: [GET]
+
+assign_tasks:
+  path: /assign-tasks
+  controller: App\Controller\TaskCommandController::assignTasks
+  methods: [GET]
+
+php_version:
+  path: /php-version
+  controller: App\Controller\TaskCommandController::phpVersion
+  methods: [GET]
+
+home_page:
+  path: /
+  controller: App\Controller\HomeController::index
